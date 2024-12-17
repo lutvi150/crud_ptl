@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KamarModel as Kamal;
+use App\Models\TamuModel as Tamu;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
-class KamarController extends Controller
+class TamuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $kamar=Kamal::orderBy('id_kamar','desc')->get();
+        $tamu=Tamu::orderBy('id_tamu','desc')->join('table_kamar','table_kamar.id_kamar','=','table_tamu.id_kamar')->get();
         $response=[
-            'status'=> 'success',
-            'message'=> 'Data berhasil ditemukan',
-            'data' => $kamar
+            'status'=>'success',
+            'message'=> 'Data tamu berhasil ditampilkan',
+            'data'=> $tamu
         ];
-        return response()->json($response,200);
+        return response()->json($response, 200);
     }
 
     /**
@@ -27,11 +26,7 @@ class KamarController extends Controller
      */
     public function store(Request $request)
     {
-        $validation=Valida::make($request->all(),[
-            'nama_kamar' =>'required',
-            'harga_kamar' =>'required',
-            'fasilitas' =>'required',
-        ]);
+        //
     }
 
     /**

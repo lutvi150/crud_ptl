@@ -13,7 +13,7 @@
               <div class="dropdown">
               </div>
             </div>
-            <div class="card-body ard-data-kamar">
+            <div class="card-body card-data-kamar">
               <div class="table-responsive">
                 <button onclick="show_data('add')" type="button" class="btn btn-success mb-2"><i class="fa fa-plus"></i>Tambah Data Kamar</button>
                 <table class="table table-bordered table-data-kamar">
@@ -41,7 +41,7 @@
               </table>
           </div>
         </div>
-        <div class="card-body card-add-kamar" >
+        <div class="card-body card-add-kamar" hidden>
           <form action="" id="form-data-kamar" method="post">
               <div class="form-group">
                   <label for="">Nama Kamar</label>
@@ -77,11 +77,8 @@
     get_data_kamar = () => {
         Notiflix.Block.arrows('.table-data-kamar', 'Loading...');
         $.ajax({
-            type: "POST",
-            url: "function/kamar.php",
-            data: {
-                action: "get_kamar"
-            },
+            type: "GET",
+            url: url+"/api/kamar",
             dataType: "JSON",
             success: function(response) {
                 Notiflix.Block.remove('.table-data-kamar');
@@ -103,7 +100,7 @@
                 }
             },
             error: function(xhr, ajaxOptions, thrownError) {
-                Notiflix.Report.Failure('Server Error', 'We cannot connect to the server.', 'OK');
+                Notiflix.Report.failure('Server Error', 'We cannot connect to the server.', 'OK');
             }
         });
     }

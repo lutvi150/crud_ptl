@@ -20,4 +20,5 @@
 <script async defer src="https://buttons.github.io/buttons.js')}}"></script>
 <script src="{{ asset('assets/jquery/jquery.js') }}"></script>
 <script src="{{ asset('assets/notiflix/dist/notiflix-3.2.7.min.js') }}"></script>
+<script> let url="{{ url('/') }}"; </script>
 @yield('script')
