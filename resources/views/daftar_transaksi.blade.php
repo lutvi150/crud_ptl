@@ -8,24 +8,39 @@
       <div class="row">
         <div class="col-xxl-12 mb-6 order-0">
           <div class="card">
-            <div class="d-flex align-items-start row">
-              <div class="col-sm-7">
-                <div class="card-body">
-                  <h5 class="card-title text-primary mb-3">Selamat Datang! 🎉</h5>
-                  <p class="mb-6">
-                    Selamat datang datang di sistem reservasi hotel. Silahkan pilih menu yang tersedia di samping untuk melakukan reservasi.
-                  </p>
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h4 class="card-title mb-0">Daftar Transaksi</h4>
+                <div class="dropdown">
                 </div>
               </div>
-              <div class="col-sm-5 text-center text-sm-left">
-                <div class="card-body pb-0 px-0 px-md-6">
-                  <img
-                    src="{{asset('theme/assets/img/illustrations/man-with-laptop.png')}}"
-                    height="175"
-                    class="scaleX-n1-rtl"
-                    alt="View Badge User" />
-                </div>
-              </div>
+            <div class="card-body card-data-tamu">
+              <table class="table table-bordered table-data-transaksi">
+                <thead>
+                    <th>No.</th>
+                    <th>Nama Tamu</th>
+                    <th>Nomor Kontak</th>
+                    <th>Tgl Check In</th>
+                    <th>Tgl Check Out</th>
+                    <th>Jenis Kamar</th>
+                    <th>Harga Sewa</th>
+                    <th>Durasi Menginap</th>
+                    <th>Total Biaya</th>
+                </thead>
+                <tbody class="data-transaksi">
+                    <tr hidden>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
             </div>
           </div>
         </div>
@@ -34,6 +49,50 @@
     <!-- / Content -->
 
 </div>
-   
 
+@endsection
+@section('script')
+<script>
+$(document).ready(function() {
+  
+  get_data_transaksi();
+});
+get_data_transaksi = () => {
+  Notiflix.Block.arrows('.table-data-transaksi', 'Loading...');
+  $.ajax({
+      type: "GET",
+      url: url+"/api/transaksi",
+      dataType: "JSON",
+      success: function(response) {
+          let data = response.data;
+          if (response.status == 'success') {
+              let html = '';
+              data.forEach((item, index) => {
+                  html += `<tr>
+                      <td>${index+1}</td>
+                      <td>${item.nama_tamu}</td>
+                      <td>${item.nomor_kontak}</td>
+                      <td>${item.tgl_in}</td>
+                      <td>${item.tgl_out}</td>
+                      <td>${item.nama_kamar}</td>
+                      <td>${counrencyFormat(item.harga_kamar)}/ Malam</td>
+                      <td>${item.lama_menginap} Hari</td>
+                      <td>${counrencyFormat(item.total_harga)}</td>
+                  </tr>`;
+              });
+              $('.data-transaksi').html(html);
+              Notiflix.Block.remove('.table-data-transaksi');
+          } else {
+              Notiflix.Report.failure('Data Transaksi', response.message, 'OK');
+          }
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+          Notiflix.Report.Failure('Server Error', 'We cannot connect to the server.', 'OK');
+      }
+  })
+};
+counrencyFormat = (num) => {
+  return "Rp " + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+</script>
 @endsection

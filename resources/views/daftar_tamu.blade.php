@@ -48,37 +48,37 @@
                     <div class="form-group">
                         <label for="">Nama Tamu</label>
                         <input type="text" name="nama_tamu" id="nama_tamu" class="form-control" placeholder="" aria-describedby="helpId">
-                        <small id="helpId" class="text-muted"></small>
+                        <small id="helpId" class="text-muted e_nama_tamu"></small>
                     </div>
                     <div class="form-group">
                         <label for="">Nomor Kontak</label>
                         <input type="text" name="nomor_kontak" id="nomor_kontak" class="form-control" placeholder="" aria-describedby="helpId">
-                        <small id="helpId" class="text-muted"></small>
+                        <small id="helpId" class="text-muted e_nomor_kontak"></small>
                     </div>
                     <div class="form-group">
                         <label for="">Pilih Kamar</label>
                         <select name="id_kamar" onchange="get_data_kamar_spesifik()" id="id_kamar" class="form-control"></select>
-                        <small id="helpId" class="text-muted"></small>
+                        <small id="helpId" class="text-muted e_id_kamar"></small>
                     </div>
                     <div class="form-group">
                         <label for="">Tanggal Check In</label>
                         <input type="date" onchange="count_durasi()" name="tgl_in" id="tgl_in" class="form-control" placeholder="" aria-describedby="helpId">
-                        <small id="helpId" class="text-muted"></small>
+                        <small id="helpId" class="text-muted e_tgl_in"></small>
                     </div>
                     <div class="form-group">
                         <label for="">Tanggal Checkout</label>
                         <input type="date" onchange="count_durasi()" name="tgl_out" id="tgl_out" class="form-control" placeholder="" aria-describedby="helpId">
-                        <small id="helpId" class="text-muted"></small>
+                        <small id="helpId" class="text-muted e_tgl_out"></small>
                     </div>
                     <div class="form-group">
                         <label for="">Durasi Menginap</label>
                         <input type="text" disabled name="durasi" id="durasi" class="form-control" placeholder="" aria-describedby="helpId">
-                        <small id="helpId" class="text-muted"></small>
+                        <small id="helpId" class="text-muted e_durasi"></small>
                     </div>
                     <div class="form-group">
                         <label for="">Total Harga</label>
                         <input type="text" readonly disabled name="total_harga" id="total_harga" class="form-control" placeholder="" aria-describedby="helpId">
-                        <small id="helpId" class="text-muted"></small>
+                        <small id="helpId" class="text-muted e_total_harga"></small>
                     </div>
 
                     <button type="button" onclick="save_data()" class="btn btn-success mt-2"><i class="fa fa-save"></i> Simpan Data</button>
@@ -126,7 +126,7 @@
         let id_kamar = $('#id_kamar').children("option:selected").val();
         $.ajax({
             type: "GET",
-            url: "function/kamar.php",
+            url: url+"/api/kamar/"+id_kamar,
             data: {
                 action: "edit_kamar",
                 id_kamar: id_kamar
@@ -230,7 +230,7 @@
             };
             $.ajax({
                 type: "POST",
-                url: "function/tamu.php",
+                url: url+"/api/tamu",
                 data: data,
                 dataType: "JSON",
                 success: function(response) {
@@ -240,6 +240,9 @@
                             show_data('show');
                         });
                     } else {
+                        $.each(response.errors, function (indexInArray, valueOfElement) { 
+                             $(".e-"+indexInArray).text(valueOfElement);
+                        });
                         Notiflix.Report.failure('Data Tamu', response.message, 'OK');
                     }
                 },
@@ -259,12 +262,8 @@
         $(".card-data-tamu").attr("hidden", true);
         $(".card-add-tamu").removeAttr("hidden");
         $.ajax({
-            type: "POST",
-            url: "function/tamu.php",
-            data: {
-                action: "edit_data_tamu",
-                id_tamu: id_tamu
-            },
+            type: "GET",
+            url: url+"/api/tamu/"+id_tamu,
             dataType: "JSON",
             success: function(response) {
                 Notiflix.Loading.remove();
@@ -275,6 +274,8 @@
                     $('#id_kamar').val(data.id_kamar);
                     $('#tgl_in').val(data.tgl_in);
                     $('#tgl_out').val(data.tgl_out);
+                    $("#durasi").val(response.transaksi.lama_menginap);
+                    $("#total_harga").val(response.transaksi.total_harga);
                     count_durasi();
                 } else {
                     Notiflix.Report.failure('Data Tamu', response.message, 'OK');
@@ -295,8 +296,8 @@
             function() {
                 Notiflix.Loading.dots('Processing...');
                 $.ajax({
-                    type: "POST",
-                    url: "function/tamu.php",
+                    type: "GET",
+                    url: url+"/api/tamu-delete/"+id_tamu,
                     data: {
                         action: "delete_data_tamu",
                         id_tamu: id_tamu

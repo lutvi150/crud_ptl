@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\KamarController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\TamuController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +20,7 @@ Route::get('tamu',[TamuController::class,'index']);
 Route::post('tamu',[TamuController::class,'store']);
 Route::get('tamu/{id}',[TamuController::class,'show']);
 Route::get('tamu-delete/{id}',[TamuController::class,'destroy']);
+// use for transaction
+Route::get('transaksi',[TransaksiController::class,'index']);
+// use for log database
+Route::get('log-database',[LogController::class,'index']);

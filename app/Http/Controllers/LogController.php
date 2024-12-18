@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LogModel as Log;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
@@ -11,7 +12,12 @@ class LogController extends Controller
      */
     public function index()
     {
-        //
+        $log=Log::all();
+        $response=[
+            'status'=>'success',
+            'data'=>$log
+        ];
+        return response()->json($response,200);
     }
 
     /**

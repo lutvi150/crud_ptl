@@ -4,7 +4,8 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('login');
+    // return view('login');
+    return redirect('/admin');
 });
 Route::group(['prefix'=> 'admin'], function () {
     Route::view('/','dashboard');
