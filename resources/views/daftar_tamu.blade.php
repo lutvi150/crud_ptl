@@ -8,24 +8,82 @@
       <div class="row">
         <div class="col-xxl-12 mb-6 order-0">
           <div class="card">
-            <div class="d-flex align-items-start row">
-              <div class="col-sm-7">
-                <div class="card-body">
-                  <h5 class="card-title text-primary mb-3">Selamat Datang! 🎉</h5>
-                  <p class="mb-6">
-                    Selamat datang datang di sistem reservasi hotel. Silahkan pilih menu yang tersedia di samping untuk melakukan reservasi.
-                  </p>
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h4 class="card-title mb-0">Daftar Tamu</h4>
+                <div class="dropdown">
                 </div>
               </div>
-              <div class="col-sm-5 text-center text-sm-left">
-                <div class="card-body pb-0 px-0 px-md-6">
-                  <img
-                    src="{{asset('theme/assets/img/illustrations/man-with-laptop.png')}}"
-                    height="175"
-                    class="scaleX-n1-rtl"
-                    alt="View Badge User" />
-                </div>
-              </div>
+            <div class="card-body card-data-tamu">
+                <button onclick="show_data('add')" type="button" class="btn btn-success mb-2"><i class="fa fa-plus"></i>Tambah Data Kamar</button>
+                <table class="table table-bordered table-data-tamu">
+                    <thead>
+                        <th>No.</th>
+                        <th>Nama Tamu</th>
+                        <th>Nomor Kontak</th>
+                        <th>Tgl Check In</th>
+                        <th>Tgl Check Out</th>
+                        <th>Durasi Menginap</th>
+                        <th>
+                            Aksi
+                        </th>
+                    </thead>
+                    <tbody class="data-tamu">
+                        <tr hidden>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
+                                <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body card-add-tamu" hidden>
+                <form action="" id="form-data-tamu" method="post">
+                    <div class="form-group">
+                        <label for="">Nama Tamu</label>
+                        <input type="text" name="nama_tamu" id="nama_tamu" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nomor Kontak</label>
+                        <input type="text" name="nomor_kontak" id="nomor_kontak" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Pilih Kamar</label>
+                        <select name="id_kamar" onchange="get_data_kamar_spesifik()" id="id_kamar" class="form-control"></select>
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tanggal Check In</label>
+                        <input type="date" onchange="count_durasi()" name="tgl_in" id="tgl_in" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tanggal Checkout</label>
+                        <input type="date" onchange="count_durasi()" name="tgl_out" id="tgl_out" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Durasi Menginap</label>
+                        <input type="text" disabled name="durasi" id="durasi" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Total Harga</label>
+                        <input type="text" readonly disabled name="total_harga" id="total_harga" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted"></small>
+                    </div>
+
+                    <button type="button" onclick="save_data()" class="btn btn-success mt-2"><i class="fa fa-save"></i> Simpan Data</button>
+                    <button type="button" onclick="show_data('show')" class="btn btn-info mt-2"><i class="fa fa-reply"></i> Kembali</button>
+                </form>
             </div>
           </div>
         </div>
@@ -67,7 +125,7 @@
     get_data_kamar_spesifik = () => {
         let id_kamar = $('#id_kamar').children("option:selected").val();
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "function/kamar.php",
             data: {
                 action: "edit_kamar",
@@ -90,8 +148,8 @@
     }
     get_data_kamar = () => {
         $.ajax({
-            type: "POST",
-            url: url+"api/kamar",
+            type: "GET",
+            url: url+"/api/kamar",
             dataType: "JSON",
             success: function(response) {
                 let data = response.data;
@@ -113,8 +171,8 @@
     get_data_tamu = () => {
         Notiflix.Block.arrows('.table-data-tamu', 'Loading...');
         $.ajax({
-            type: "POST",
-            url: url+"api/tamu",
+            type: "GET",
+            url: url+"/api/tamu",
             dataType: "JSON",
             success: function(response) {
                 Notiflix.Block.remove('.table-data-tamu');

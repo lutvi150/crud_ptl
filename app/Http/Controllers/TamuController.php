@@ -26,7 +26,7 @@ class TamuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -34,7 +34,13 @@ class TamuController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $tamu=Tamu::findOrFail($id);
+        $response=[
+            'status'=>'success',
+            'message'=> 'Data tamu berhasil ditampilkan',
+            'data'=> $tamu
+        ];
+        return response()->json($response, 200);
     }
 
     /**
@@ -50,6 +56,12 @@ class TamuController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $tamu=Tamu::find($id);
+        $tamu->delete();
+        $response=[
+            'status'=>'success',
+            'message'=> 'Data tamu berhasil dihapus'
+        ];
+        return response()->json($response,200);
     }
 }

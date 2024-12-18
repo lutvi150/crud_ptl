@@ -46,17 +46,17 @@
               <div class="form-group">
                   <label for="">Nama Kamar</label>
                   <input type="text" name="nama_kamar" id="nama_kamar" class="form-control" placeholder="" aria-describedby="helpId">
-                  <small id="helpId" class="text-muted"></small>
+                  <small id="helpId" class="text-muted e_nama_kamar"></small>
               </div>
               <div class="form-group">
                   <label for="">Harga Kamar</label>
                   <input type="text" name="harga_kamar" id="harga_kamar" class="form-control" placeholder="" aria-describedby="helpId">
-                  <small id="helpId" class="text-muted"></small>
+                  <small id="helpId" class="text-muted e_harga_kamar"></small>
               </div>
               <div class="form-group">
                   <label for="">Fasilitas Kamar</label>
                   <input type="text" name="fasilitas" id="fasilitas" class="form-control" placeholder="" aria-describedby="helpId">
-                  <small id="helpId" class="text-muted"></small>
+                  <small id="helpId" class="text-muted e_fasilitas"></small>
               </div>
               <button type="button" onclick="save_data_kamar()" class="btn btn-success mt-2"><i class="fa fa-save"></i> Simpan Data</button>
               <button type="button" onclick="show_data('show')" class="btn btn-info mt-2"><i class="fa fa-reply"></i> Kembali</button>
@@ -75,6 +75,7 @@
         get_data_kamar();
     });
     get_data_kamar = () => {
+        $(".text-muted").text("");
         Notiflix.Block.arrows('.table-data-kamar', 'Loading...');
         $.ajax({
             type: "GET",
@@ -97,6 +98,10 @@
                         </tr>`;
                     });
                     $(".data-kamar").html(html);
+                }else{
+                    $.each(response.error, function (indexInArray, valueOfElement) { 
+                         $(".e_"+indexInArray).text(valueOfElement);
+                    });
                 }
             },
             error: function(xhr, ajaxOptions, thrownError) {
@@ -116,12 +121,8 @@
             function okCb() {
                 Notiflix.Loading.dots('Loading...');
                 $.ajax({
-                    type: "POST",
-                    url: "function/kamar.php",
-                    data: {
-                        action: "delete_kamar",
-                        id_kamar: id,
-                    },
+                    type: "GET",
+                    url: url+"/api/kamar-delete/"+id,
                     dataType: "JSON",
                     success: function(response) {
                         Notiflix.Loading.remove();
@@ -168,9 +169,8 @@
             Notiflix.Loading.dots('Processing...');
             $.ajax({
                 type: "POST",
-                url: "function/kamar.php",
+                url: url+"/api/kamar",
                 data: {
-                    action: "save_kamar",
                     id_kamar: sessionStorage.getItem('id_kamar'),
                     type: sessionStorage.getItem('comand'),
                     nama_kamar: nama_kamar,
@@ -205,12 +205,8 @@
         $(".card-data-kamar").attr('hidden', true);
         $(".card-add-kamar").removeAttr('hidden');
         $.ajax({
-            type: "POST",
-            url: "function/kamar.php",
-            data: {
-                action: "edit_kamar",
-                id_kamar: id
-            },
+            type: "GET",
+            url: url+"/api/kamar/"+id,
             dataType: "JSON",
             success: function(response) {
                 Notiflix.Loading.remove();
