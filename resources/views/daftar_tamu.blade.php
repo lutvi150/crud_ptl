@@ -40,7 +40,7 @@
                                 <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
-                    </tbody>
+                </tbody>
                 </table>
             </div>
             <div class="card-body card-add-tamu" hidden>

@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F3F7EC;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  overflow: hidden;
+  color: #052b48;
+  font-family: "Fredericka the Great";
+}
+
+h1 {
+  margin-bottom: 1rem; 
+  font-size: 3rem;
+  filter: drop-shadow(3px 3px 0 #E88D67);
+}
+
+.button {
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  background: none;
+  position: relative;
+  border: 0.25rem solid;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1.5rem;
+  
+  
+  &:hover {
+    cursor: pointer;
+    color: #F3F7EC;
+  }
+  
+  &::before {
+    content: "XXXXX";
+    color: #db7d55;
+    font-size: 4rem;
+    padding-left: 0.5rem;
+    position: absolute;
+    inset: 0;
+    transform: translateX(0.75rem) translateY(0.5rem) rotateZ(-3deg) skewX(-10deg);
+    background-color: #E88D67;
+    z-index: -2;
+    border-radius: 1.4rem;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 2.25rem;
+    border-top-left-radius: 1.25rem;
+    transition: 250ms;
+    border: 5rem solid #E88D67;
+    border-top: 0 solid transparent;
+    border-left: 0 solid transparent;
+  }
+  
+  &:hover::before {
+    color: #006989;
+    
+    transform: translateX(0) translateY(-0.5rem) rotateZ(0deg) skewX(0) scaleX(25.25) scaleY(0.5);
+    border-radius: 0.25rem;
+    border-color: #006989;
+    border-bottom-right-radius: 0.2rem;
+    border-bottom-left-radius: 0.2rem;
+    border-top-left-radius: 0.2rem;
+    background-color: #006989;    
+  }
+}
