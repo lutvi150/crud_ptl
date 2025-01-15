@@ -12,7 +12,8 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $transaksi = Transaksi::join('table_tamu','table_transaksi.id_tamu','=','table_tamu.id_tamu')->join('table_kamar','table_tamu.id_kamar','=','table_kamar.id_kamar')->get();
+        $transaksi = Transaksi::join('table_tamu','table_transaksi.id_tamu','=','table_tamu.id_tamu')
+        ->join('table_kamar','table_tamu.id_kamar','=','table_kamar.id_kamar')->get();
         $response=[
             "status" => 'success',
             'message'=>'Data transaksi berhasil ditampilkan',

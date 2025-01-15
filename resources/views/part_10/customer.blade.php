@@ -10,6 +10,7 @@
             <div class="card-body p-3 card-data">
                 <button onclick="show_data('add')" class="btn btn-success btn-sm mb-3"><i class="fa fa-plus"></i> Tambah
                     Customer</button>
+                    <a href="{{ url('part-10/report-customer') }}" target="_blank" class="btn btn-warning btn-sm mb-3"><i class="fa fa-print"></i> Cetak Laporan</a>
                 <table class="table table-bordered">
                     <thead>
                         <th>No.</th>

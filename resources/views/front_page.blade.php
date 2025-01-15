@@ -14,7 +14,7 @@
             <h1>Pemrograman Tingkat lanjut</h1>
             <h2>Daftar Tugas</h2>
             <li><a href="{{ url('admin') }}"> Part 9 tanggal 12 Desember 2024</a></li>
-            <li><a href="{{ url('part-10') }}">Part 10 tanggal 19 Desember 2024</a></li>
+            <li><a href="{{ url('part-10') }}">Part 10, Part 11 dan Part 12</a></li>
           </div>
     </div>
 </body>
